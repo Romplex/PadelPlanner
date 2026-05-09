@@ -1,0 +1,19 @@
+<head>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<h1>Padel Buchungen - <%= user %></h1>
+<ul>
+  <% slots.forEach(slot => { %>
+    <% const isFull = slot.booking_count >= 4; %>
+    <li class="<%= isFull ? 'full' : '' %>">
+      <%= slot.date %> <%= slot.start_time %> - <%= slot.end_time %> (Buchungen: <%= slot.booking_count %>/4)
+      <% if (slot.booking_count < 4) { %>
+        <button onclick="bookSlot(<%= slot.id %>)">Buchen</button>
+      <% } else { %>
+        Voll!
+      <% } %>
+    </li>
+  <% }); %>
+</ul>
+<script src="/js/app.js"></script>
