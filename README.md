@@ -7,10 +7,12 @@ This project is a simple web scraper that fetches available time slots from a pa
 ```
 padel-scraper
 ├── db
-│   └── schema.sql     # Database schema
+│   └── schema.sql      # Database schema
 ├── src
 │   ├── index.js        # Entry point of the scraper
-│   └── parser.js       # Parses HTML and extracts free slots
+│   ├── parser.js       # Parses HTML and extracts free slots
+│   └── database.js     # Handles database operations
+├── .env.example        # Example environment variables
 ├── package.json        # NPM configuration file
 ├── .gitignore          # Specifies files to ignore in Git
 └── README.md           # Project documentation
@@ -29,6 +31,19 @@ padel-scraper
    npm install
    ```
 
+3. Create a `.env` file based on `.env.example`:
+   ```
+   cp .env.example .env
+   ```
+
+4. Update the `.env` file with your MySQL database credentials:
+   ```
+   DB_HOST=localhost
+   DB_USER=root
+   DB_PASSWORD=your_password_here
+   DB_NAME=padel_scraper
+   ```
+
 ## Usage
 
 To run the scraper, execute the following command in your terminal:
@@ -36,7 +51,7 @@ To run the scraper, execute the following command in your terminal:
 node src/index.js
 ```
 
-This will fetch the HTML data from the specified padel booking URL, parse it, and log the available time slots in JSON format to the console.
+This will fetch the HTML data from the specified padel booking URL, parse it, and save the available time slots to the MySQL database.
 
 ## Database setup
 
@@ -60,26 +75,15 @@ CREATE TABLE slots (
 );
 ```
 
-2. Install the MySQL client dependency:
-
-```bash
-npm install mysql2
-```
-
-3. Configure the database connection in `src/database.js`.
-
-4. Run the scraper:
-
-```bash
-node src/index.js
-```
+2. The database connection is configured via environment variables in `.env`.
 
 ## Dependencies
 
 This project uses the following npm packages:
 - `axios`: For making HTTP requests.
 - `cheerio`: For parsing and manipulating HTML data.
-- `mysql2`: For saving scraped data into MySQL.
+- `mysql2`: For database operations and storing scraped data.
+- `dotenv`: For loading environment variables from `.env` file.
 
 ## License
 
