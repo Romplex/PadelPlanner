@@ -16,10 +16,12 @@ router.post('/login', (req, res) => {
 });
 
 router.get('/scrape', async (req, res) => {
-  if (!req.session.user) return res.redirect('/login');
+  if (req.query.key !== process.env.SCRAPE_KEY) {
+    return res.status(403).send('Unauthorized');
+  }
   try {
     await fetchAllFreeSlots();
-    res.send('Scraper erfolgreich ausgeführt. <a href="/">Zurück</a>');
+    res.send('Scraper erfolgreich ausgeführt.');
   } catch (error) {
     res.status(500).send('Scraper-Fehler: ' + error.message);
   }
