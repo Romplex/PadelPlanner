@@ -5,8 +5,10 @@ const router = express.Router();
 
 router.get('/', async (req, res) => {
   if (!req.session.user) return res.redirect('/login');
-  const slots = await Slot.getAvailableSlots();
-  res.render('index', { slots, user: req.session.user });
+  const slots = await Slot.getAvailableSlots(req.session.user);
+  const today = new Date().toISOString().split('T')[0];
+  const futureSlots = slots.filter(slot => slot.date >= today);
+  res.render('index', { slots: futureSlots, user: req.session.user });
 });
 
 router.get('/login', (req, res) => res.render('login'));

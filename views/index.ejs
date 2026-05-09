@@ -3,17 +3,43 @@
 </head>
 
 <h1>Padel Buchungen - <%= user %></h1>
-<ul>
-  <% slots.forEach(slot => { %>
-    <% const isFull = slot.booking_count >= 4; %>
-    <li class="<%= isFull ? 'full' : '' %>">
-      <%= slot.date %> <%= slot.start_time %> - <%= slot.end_time %> (Buchungen: <%= slot.booking_count %>/4)
-      <% if (slot.booking_count < 4) { %>
-        <button onclick="bookSlot(<%= slot.id %>)">Buchen</button>
-      <% } else { %>
-        Voll!
-      <% } %>
-    </li>
-  <% }); %>
-</ul>
+
+<% 
+  const groupedSlots = slots.reduce((acc, slot) => {
+    if (!acc[slot.date]) acc[slot.date] = [];
+    acc[slot.date].push(slot);
+    return acc;
+  }, {});
+%>
+
+<% Object.keys(groupedSlots).sort((a, b) => new Date(a) - new Date(b)).forEach(date => { %>
+  <h2><%= new Date(date).toLocaleDateString('de-DE') %></h2>
+  <div class="slots-grid">
+    <% groupedSlots[date].forEach(slot => { %>
+      <% 
+        const isFull = slot.booking_count >= 4;
+        const isBookedByUser = slot.user_booked;
+        let className = 'slot-button';
+
+        if (isFull) className += ' full';
+        else if (isBookedByUser) className += ' booked';
+        else className += ' available';
+
+        const tooltip = slot.booked_users
+          ? `Gebucht: ${slot.booked_users}`
+          : 'Noch keine Buchungen';
+        const disabled = isFull || isBookedByUser;
+      %>
+      <button
+        type="button"
+        class="<%= className %>"
+        title="<%= tooltip %>"
+        <%= disabled ? 'disabled' : '' %>
+        onclick="<%= disabled ? '' : `bookSlot(${slot.id})` %>">
+        <%= slot.start_time_formatted %> - <%= slot.end_time_formatted %> (<%= slot.booking_count %>/4)
+      </button>
+    <% }); %>
+  </div>
+<% }); %>
+
 <script src="/js/app.js"></script>

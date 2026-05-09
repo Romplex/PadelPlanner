@@ -9,14 +9,24 @@ const pool = mysql.createPool({
 });
 
 class Slot {
-  static async getAvailableSlots() {
+  static async getAvailableSlots(userName) {
     const [rows] = await pool.execute(`
-      SELECT s.*, COUNT(b.id) as booking_count
+      SELECT
+        s.id,
+        s.provider,
+        DATE_FORMAT(s.date, '%Y-%m-%d') AS date,
+        TIME_FORMAT(s.start_time, '%H:%i') AS start_time_formatted,
+        TIME_FORMAT(s.end_time, '%H:%i') AS end_time_formatted,
+        COUNT(b.id) AS booking_count,
+        MAX(CASE WHEN b.user_name = ? THEN 1 ELSE 0 END) AS user_booked,
+        GROUP_CONCAT(DISTINCT b.user_name ORDER BY b.created_at SEPARATOR ', ') AS booked_users
       FROM slots s
       LEFT JOIN bookings b ON s.id = b.slot_id
       WHERE s.is_available = 1
       GROUP BY s.id
-    `);
+      ORDER BY s.date ASC, s.start_time ASC
+    `, [userName]);
+
     return rows;
   }
 

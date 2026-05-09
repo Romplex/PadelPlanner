@@ -1,4 +1,14 @@
-.full {
-  color: red;
-  font-weight: bold;
+body { font-family: Arial, sans-serif; margin: 20px; }
+h1, h2 { color: #333; }
+.slots-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 10px; margin-bottom: 20px; }
+.slot-button {
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
 }
+.slot-button.available { background-color: #4CAF50; color: white; } /* Grün */
+.slot-button.full { background-color: #f44336; color: white; cursor: not-allowed; } /* Rot */
+.slot-button.booked { background-color: #ffeb3b; color: black; cursor: not-allowed; } /* Gelb */
+.slot-button:hover.available { background-color: #45a049; }
