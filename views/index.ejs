@@ -18,17 +18,21 @@
     <% groupedSlots[date].forEach(slot => { %>
       <% 
         const isFull = slot.booking_count >= 4;
+        const hasBookings = slot.booking_count > 0;
         const isBookedByUser = slot.user_booked;
         let className = 'slot-button';
 
         if (isFull) className += ' full';
-        else if (isBookedByUser) className += ' booked';
+        else if (hasBookings) className += ' booked';
         else className += ' available';
 
+        if (isBookedByUser) className += ' user-booked'; // Zusätzliche Klasse
+
+        const icon = isBookedByUser ? ' ✓' : '';
         const tooltip = slot.booked_users
           ? `Gebucht: ${slot.booked_users}`
           : 'Noch keine Buchungen';
-        const disabled = isFull || isBookedByUser;
+        const disabled = isFull;
       %>
       <button
         type="button"
@@ -36,7 +40,7 @@
         title="<%= tooltip %>"
         <%= disabled ? 'disabled' : '' %>
         onclick="<%= disabled ? '' : `bookSlot(${slot.id})` %>">
-        <%= slot.start_time_formatted %> - <%= slot.end_time_formatted %> (<%= slot.booking_count %>/4)
+        <%= slot.start_time_formatted %> - <%= slot.end_time_formatted %> (<%= slot.booking_count %>/4)<%= icon %>
       </button>
     <% }); %>
   </div>

@@ -7,8 +7,18 @@ h1, h2 { color: #333; }
   border-radius: 5px;
   cursor: pointer;
   font-size: 14px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 .slot-button.available { background-color: #4CAF50; color: white; } /* Grün */
 .slot-button.full { background-color: #f44336; color: white; cursor: not-allowed; } /* Rot */
-.slot-button.booked { background-color: #ffeb3b; color: black; cursor: not-allowed; } /* Gelb */
-.slot-button:hover.available { background-color: #45a049; }
+.slot-button.booked {
+  background-color: #ffeb3b;
+  color: black;
+}
+.slot-button.user-booked {
+  font-weight: bold;
+}
+.slot-button:hover:not(:disabled) {
+  transform: scale(1.05);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}

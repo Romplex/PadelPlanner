@@ -38,6 +38,29 @@ class Slot {
       return false; // Z.B. wenn schon gebucht
     }
   }
+
+  static async toggleBooking(slotId, userName) {
+    try {
+      // Prüfe, ob der User schon gebucht hat
+      const [existing] = await pool.execute(
+        'SELECT id FROM bookings WHERE slot_id = ? AND user_name = ?',
+        [slotId, userName]
+      );
+
+      if (existing.length > 0) {
+        // Stornieren
+        await pool.execute('DELETE FROM bookings WHERE slot_id = ? AND user_name = ?', [slotId, userName]);
+        return true; // Storniert
+      } else {
+        // Buchen
+        await pool.execute('INSERT INTO bookings (slot_id, user_name) VALUES (?, ?)', [slotId, userName]);
+        return true; // Gebucht
+      }
+    } catch (err) {
+      console.error(err);
+      return false;
+    }
+  }
 }
 
 module.exports = Slot;
