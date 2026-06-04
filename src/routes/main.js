@@ -14,6 +14,7 @@ router.get('/', async (req, res) => {
 router.get('/login', (req, res) => res.render('login'));
 router.post('/login', (req, res) => {
   req.session.user = req.body.username;
+  // localStorage.removeItem('selectedDate'); not working... "localStorage is not defined.. 
   res.redirect('/');
 });
 
