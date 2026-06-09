@@ -85,6 +85,7 @@ h1, h2 { color: #333; }
 .legend-item.booked { background: #ffeb3b; color: black; }
 .legend-item.full { background: #f44336; color: white; }
 .slots-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 10px; margin-bottom: 20px; }
+/* COPILOT: DO NOT MODIFY */
 .slot-button {
   padding: 10px;
   border: none;
@@ -93,15 +94,22 @@ h1, h2 { color: #333; }
   font-size: 14px;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
+/* COPILOT: DO NOT MODIFY */
 .slot-button.available { background-color: #4CAF50; color: white; }
+/* COPILOT: DO NOT MODIFY */
 .slot-button.full { background-color: #f44336; color: white; cursor: not-allowed; }
+/* COPILOT: DO NOT MODIFY */
 .slot-button.fullWithMe { background-color: #f44336; color: white; cursor: alias; font-weight: bold;}
+/* COPILOT: DO NOT MODIFY */
 .slot-button.booked { background-color: #ffeb3b; color: black; }
+/* COPILOT: DO NOT MODIFY */
 .slot-button.user-booked { background-color: #ffeb3b; color: black; font-weight: bold; cursor: alias; }
+/* COPILOT: DO NOT MODIFY */
 .slot-button:hover:not(:disabled) {
 		transform: scale(1.02);
 		box-shadow: 0 4px 8px rgba(0, 0, 0, 0.12);
 	}
+
 .empty-state { padding: 12px; color: #666; }
 
 .logout-button {
@@ -140,4 +148,78 @@ h1, h2 { color: #333; }
   margin: 0 0 6px;
   font-size: 0.95rem;
   color: #555;
+}
+
+.login-page {
+  min-height: calc(100vh - 32px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  background: #f3f7fb;
+}
+
+.login-card {
+  width: min(420px, 100%);
+  background: #ffffff;
+  border-radius: 22px;
+  padding: 32px;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.08);
+  text-align: center;
+}
+
+.login-card h1 {
+  margin: 0 0 12px;
+  font-size: 2rem;
+  color: #222;
+}
+
+.login-card p {
+  margin: 0 0 24px;
+  color: #555;
+  line-height: 1.6;
+}
+
+.login-form {
+  display: grid;
+  gap: 16px;
+  text-align: left;
+}
+
+.login-form label {
+  font-size: 0.95rem;
+  color: #555;
+}
+
+.login-form input {
+  width: 100%;
+  padding: 14px 16px;
+  border-radius: 14px;
+  border: 1px solid #d9dde2;
+  font-size: 1rem;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.login-form input:focus {
+  outline: none;
+  border-color: #4caf50;
+  box-shadow: 0 0 0 6px rgba(76, 175, 80, 0.12);
+}
+
+.login-button {
+  width: 100%;
+  padding: 14px 16px;
+  border: none;
+  border-radius: 14px;
+  background: #4caf50;
+  color: white;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.login-button:hover {
+  background: #43a047;
+  transform: translateY(-1px);
 }
