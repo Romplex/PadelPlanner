@@ -58,6 +58,14 @@ h1, h2 { color: #333; }
 .calendar-cell:disabled {
   cursor: not-allowed;
 }
+.calendar-cell.booked-day {
+  border-left: 6px solid #ffeb3b;
+}
+
+.calendar-cell.selected-day.booked-day {
+  box-shadow: inset 6px 0 0 rgba(255, 235, 59, 0.35);
+}
+
 .legend {
   display: flex;
   gap: 10px;

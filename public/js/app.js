@@ -7,9 +7,7 @@ function bookSlot(slotId) {
     .then(res => res.json())
     .then(data => {
       if (data.success) {
-        // loadslots() => fetches new slot data and refresh the UI
-        location.reload();
-        // initCalendar();
+        window.refreshCalendar?.();
       } else {
         alert('Buchung fehlgeschlagen');
       }
@@ -46,7 +44,7 @@ function getMonthLabel(year, month) {
   });
 }
 
-function renderCalendar(availableDates, selectedDate, currentYear, currentMonth) {
+function renderCalendar(availableDates, bookedDates, selectedDate, currentYear, currentMonth) {
   const calendarEl = document.getElementById('calendar');
   const monthLabel = document.getElementById('calendar-month');
   monthLabel.textContent = getMonthLabel(currentYear, currentMonth);
@@ -79,6 +77,10 @@ function renderCalendar(availableDates, selectedDate, currentYear, currentMonth)
       cell.disabled = true;
     }
 
+    if (bookedDates.has(dateKey)) {
+      cell.classList.add('booked-day');
+    }
+
     if (dateKey === selectedDate) {
       cell.classList.add('selected-day');
     }
@@ -106,8 +108,6 @@ function renderSlotsForDate(date, groupedSlots) {
     const hasBookings = slot.booking_count > 0;
     const isBookedByUser = slot.user_booked;
     const disabled = isFull && !isBookedByUser ? 'disabled' : '';
-    // const className = isFull ? 'slot-button full' : hasBookings ? 'slot-button booked' : 'slot-button available';
-    // const className = disabled ? 'slot-button full' : isFull ? 'slot-button fullWithMe' : hasBookings ? 'slot-button booked' : 'slot-button available';
     let className = 'slot-button available';
 
     if (disabled) {
@@ -119,7 +119,7 @@ function renderSlotsForDate(date, groupedSlots) {
     } else if (hasBookings && isBookedByUser) {
       className = 'slot-button user-booked';
     }
-  
+
     const icon = isBookedByUser ? ' ✓' : '';
     const tooltip = slot.booked_users
       ? `Gebucht: ${slot.booked_users}`
@@ -151,25 +151,24 @@ function initCalendar() {
       .filter(slot => slot.booking_count < 4)
       .map(slot => slot.date)
   );
+  const bookedDates = new Set(
+    slotData
+      .filter(slot => slot.booking_count > 0)
+      .map(slot => slot.date)
+  );
 
-  const savedDate = localStorage.getItem('selectedDate'); // format dd-mm-yyyy
-  let selectedDate; // format dd-mm-yyyy
-  if (savedDate) {
-        selectedDate = savedDate;
-    } else {
-        selectedDate = getFirstSelectableDate(availableDates);
-    }
+  const savedDate = localStorage.getItem('selectedDate');
+  let selectedDate = savedDate && availableDates.has(savedDate)
+    ? savedDate
+    : getFirstSelectableDate(availableDates);
 
   const activeDate = selectedDate ? new Date(selectedDate) : new Date();
   let currentYear = activeDate.getFullYear();
   let currentMonth = activeDate.getMonth();
-
   let currentSelectedDate = selectedDate;
 
-
-
   const updateCalendar = () => {
-    renderCalendar(availableDates, currentSelectedDate, currentYear, currentMonth);
+    renderCalendar(availableDates, bookedDates, currentSelectedDate, currentYear, currentMonth);
     if (currentSelectedDate) {
       renderSlotsForDate(currentSelectedDate, groupedSlots);
     }
@@ -177,8 +176,12 @@ function initCalendar() {
 
   window.updateSelectedDate = date => {
     currentSelectedDate = date;
-    localStorage.setItem('selectedDate', date.toString());
+    localStorage.setItem('selectedDate', date);
     updateCalendar();
+  };
+
+  window.refreshCalendar = () => {
+    location.reload();
   };
 
   document.getElementById('prev-month').addEventListener('click', () => {
