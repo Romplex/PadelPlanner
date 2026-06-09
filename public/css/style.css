@@ -36,6 +36,7 @@ h1, h2 { color: #333; }
   display: flex;
   justify-content: center;
   align-items: center;
+  transition: background-color 0.15s ease, transform 0.15s ease;
 }
 .calendar-cell.empty {
   background: transparent;
@@ -44,6 +45,10 @@ h1, h2 { color: #333; }
 .calendar-cell.available-day {
   background: #e8f5e9;
   cursor: pointer;
+}
+.calendar-cell.available-day:not(.selected-day):hover {
+  background: #c8e6c9;
+  transform: translateY(-1px);
 }
 .calendar-cell.selected-day {
   background: #4caf50;
@@ -98,3 +103,41 @@ h1, h2 { color: #333; }
 		box-shadow: 0 4px 8px rgba(0, 0, 0, 0.12);
 	}
 .empty-state { padding: 12px; color: #666; }
+
+.logout-button {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 14px;
+  border-radius: 8px;
+  background: #333;
+  color: white;
+  text-decoration: none;
+  font-size: 0.95rem;
+}
+
+.logout-button:hover {
+  background: #222;
+}
+
+.page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.page-header h1 {
+  margin: 0;
+  font-size: 1.4rem;
+}
+
+.user-actions {
+  text-align: right;
+}
+
+.user-info {
+  margin: 0 0 6px;
+  font-size: 0.95rem;
+  color: #555;
+}

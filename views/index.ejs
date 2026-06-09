@@ -2,7 +2,13 @@
   <link rel="stylesheet" href="/css/style.css">
 </head>
 
-<h1>Padel Buchungen - <%= user %></h1>
+<header class="page-header">
+  <h1>Padel Buchungen</h1>
+  <div class="user-actions">
+    <p class="user-info">Angemeldet als <strong><%= user %></strong></p>
+    <a href="/logout" class="logout-button">Logout</a>
+  </div>
+</header>
 
 <div class="calendar-wrapper">
   <div class="calendar-header">

@@ -18,6 +18,16 @@ router.post('/login', (req, res) => {
   res.redirect('/');
 });
 
+router.get('/logout', (req, res) => {
+  req.session.destroy(err => {
+    if (err) {
+      console.error('Logout error:', err);
+      return res.status(500).send('Logout fehlgeschlagen');
+    }
+    res.redirect('/login');
+  });
+});
+
 router.get('/scrape', async (req, res) => {
   if (req.query.key !== process.env.SCRAPE_KEY) {
     return res.status(403).send('Unauthorized');
