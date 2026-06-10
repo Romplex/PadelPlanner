@@ -238,17 +238,43 @@ body {
 }
 
 .slot-button {
-  padding: 12px 14px;
+  padding: 10px 12px;
   border: none;
   border-radius: 14px;
   cursor: pointer;
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
   text-align: center;
-  min-height: 70px;
+  min-height: 60px;
   display: flex;
   flex-direction: column;
   justify-content: center;
+  gap: 6px;
+}
+
+.slot-time {
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+
+.slot-avatars {
+  display: flex;
+  justify-content: center;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+
+.slot-avatar {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.65rem;
+  font-weight: 700;
+  cursor: pointer;
 }
 
 .slot-button.available {

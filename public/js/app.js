@@ -23,6 +23,19 @@ function escapeHtml(text) {
     .replace(/>/g, '&gt;');
 }
 
+function getInitials(name) {
+  const trimmed = name.trim();
+  const parts = trimmed.split(/\s+/);
+  
+  if (parts.length >= 2) {
+    // Vor- und Nachname vorhanden: Initiale von jedem
+    return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+  } else {
+    // Nur ein Name: erste 2 Buchstaben
+    return trimmed.substring(0, 2).toUpperCase();
+  }
+}
+
 function groupSlotsByDate(slots) {
   return slots.reduce((acc, slot) => {
     if (!acc[slot.date]) acc[slot.date] = [];
@@ -124,11 +137,22 @@ function renderSlotsForDate(date, groupedSlots) {
       className = 'slot-button user-booked';
     }
 
-    const icon = isBookedByUser ? ' ✓' : '';
     const tooltip = slot.booked_users
       ? `Gebucht: ${slot.booked_users}`
       : 'Noch keine Buchungen';
     const onClick = disabled ? '' : `bookSlot(${slot.id})`;
+
+    // Avatar-Initialen
+    let avatarsHtml = '';
+    if (hasBookings && slot.booked_users) {
+      const names = slot.booked_users.split(', ');
+      avatarsHtml = '<div class="slot-avatars">' +
+        names.map(name => {
+          const initials = getInitials(name);
+          return `<div class="slot-avatar" title="${escapeHtml(name)}">${initials}</div>`;
+        }).join('') +
+        '</div>';
+    }
 
     return `
       <button
@@ -137,7 +161,8 @@ function renderSlotsForDate(date, groupedSlots) {
         title="${escapeHtml(tooltip)}"
         ${disabled}
         onclick="${onClick}">
-        ${slot.start_time_formatted} - ${slot.end_time_formatted} (${slot.booking_count}/4)${icon}
+        <div class="slot-time">${slot.start_time_formatted} - ${slot.end_time_formatted} (${slot.booking_count}/4)</div>
+        ${avatarsHtml}
       </button>
     `;
   }).join('');
