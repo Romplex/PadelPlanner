@@ -14,8 +14,10 @@ router.get('/', async (req, res) => {
 router.get('/login', (req, res) => res.render('login'));
 router.post('/login', (req, res) => {
   req.session.user = req.body.username;
-  // localStorage.removeItem('selectedDate'); not working... "localStorage is not defined.. 
-  res.redirect('/');
+
+  req.session.save(() => {
+    res.redirect('/');
+  });
 });
 
 router.get('/logout', (req, res) => {
@@ -24,6 +26,7 @@ router.get('/logout', (req, res) => {
       console.error('Logout error:', err);
       return res.status(500).send('Logout fehlgeschlagen');
     }
+    
     res.redirect('/login');
   });
 });
