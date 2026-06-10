@@ -276,6 +276,29 @@ body {
   font-size: 0.95rem;
 }
 
+/* Tablet (768px - 899px) */
+@media (min-width: 768px) and (max-width: 899px) {
+  .page-header {
+    flex-direction: column;
+  }
+
+  .page-content {
+    grid-template-columns: 1fr;
+  }
+
+  .user-actions {
+    text-align: left;
+    flex-direction: row;
+    justify-content: flex-start;
+    gap: 16px;
+  }
+
+  .slots-grid {
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  }
+}
+
+/* Desktop (900px+) */
 @media (min-width: 900px) {
   .page-content {
     grid-template-columns: 360px 1fr;
@@ -287,22 +310,195 @@ body {
   }
 }
 
-@media (max-width: 720px) {
+/* Mobile (up to 479px) */
+@media (max-width: 479px) {
   body {
-    padding: 16px;
+    padding: 12px;
+  }
+
+  .page-header {
+    flex-direction: column;
+    margin-bottom: 16px;
+  }
+
+  .page-header h1 {
+    font-size: 1.5rem;
+  }
+
+  .user-actions {
+    text-align: left;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 8px;
+  }
+
+  .user-info {
+    display: none;
+  }
+
+  .logout-button {
+    padding: 8px 12px;
+    font-size: 0.85rem;
+  }
+
+  .page-content {
+    grid-template-columns: 1fr;
+  }
+
+  .section-card {
+    padding: 14px;
+    border-radius: 14px;
   }
 
   .calendar-weekdays,
   .calendar {
-    gap: 4px;
+    gap: 3px;
+  }
+
+  .calendar-cell {
+    min-height: 32px;
+    font-size: 0.75rem;
+    border-radius: 8px;
+  }
+
+  .calendar-header button {
+    padding: 6px 10px;
+    font-size: 0.9rem;
+  }
+
+  .section-header h2 {
+    font-size: 1rem;
+  }
+
+  .slots-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+
+  .slot-button {
+    min-height: 60px;
+    padding: 10px;
+    font-size: 0.9rem;
+    border-radius: 12px;
+  }
+
+  .legend {
+    gap: 8px;
+    margin-top: 8px;
+  }
+
+  .legend-item {
+    padding: 6px 10px;
+    font-size: 0.75rem;
+    flex: 1;
+    text-align: center;
+  }
+
+  #selected-date-title {
+    font-size: 0.95rem;
+    margin-bottom: 10px;
+  }
+
+  .price-info {
+    font-size: 0.9rem;
+    margin: 10px 0 16px;
+  }
+
+  .eyebrow {
+    font-size: 0.75rem;
+    margin-bottom: 6px;
+  }
+
+  .page-description {
+    font-size: 0.95rem;
+    line-height: 1.5;
+    margin-top: 8px;
+  }
+}
+
+/* Small Mobile (480px - 599px) */
+@media (min-width: 480px) and (max-width: 599px) {
+  body {
+    padding: 14px;
+  }
+
+  .page-header {
+    flex-direction: column;
+    margin-bottom: 18px;
+  }
+
+  .page-header h1 {
+    font-size: 1.6rem;
+  }
+
+  .user-actions {
+    text-align: left;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 10px;
+  }
+
+  .page-content {
+    grid-template-columns: 1fr;
+  }
+
+  .section-card {
+    padding: 16px;
   }
 
   .calendar-cell {
     min-height: 36px;
-    font-size: 0.85rem;
+    font-size: 0.8rem;
   }
 
   .slots-grid {
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    grid-template-columns: repeat(2, 1fr);
+    gap: 11px;
+  }
+
+  .slot-button {
+    min-height: 65px;
+    font-size: 0.92rem;
+  }
+
+  .legend-item {
+    padding: 6px 11px;
+    font-size: 0.8rem;
+  }
+}
+
+/* Medium Mobile / Small Tablet (600px - 767px) */
+@media (min-width: 600px) and (max-width: 767px) {
+  body {
+    padding: 16px;
+  }
+
+  .page-header {
+    flex-direction: column;
+    margin-bottom: 20px;
+  }
+
+  .page-header h1 {
+    font-size: 1.8rem;
+  }
+
+  .user-actions {
+    flex-direction: row;
+    justify-content: space-between;
+    text-align: left;
+  }
+
+  .page-content {
+    grid-template-columns: 1fr;
+  }
+
+  .slots-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+  }
+
+  .slot-button {
+    min-height: 70px;
+    font-size: 0.93rem;
   }
 }

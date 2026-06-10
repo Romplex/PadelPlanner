@@ -71,3 +71,58 @@
   background: #43a047;
   transform: translateY(-1px);
 }
+
+/* Mobile Optimizations */
+@media (max-width: 479px) {
+  .login-page {
+    min-height: calc(100vh - 24px);
+    padding: 12px;
+  }
+
+  .login-card {
+    width: 100%;
+    padding: 24px;
+    border-radius: 16px;
+  }
+
+  .login-card h1 {
+    font-size: 1.6rem;
+    margin-bottom: 10px;
+  }
+
+  .login-card p {
+    margin-bottom: 18px;
+    font-size: 0.9rem;
+    line-height: 1.5;
+  }
+
+  .login-form input {
+    padding: 12px 14px;
+    font-size: 16px;
+    border-radius: 12px;
+  }
+
+  .login-button {
+    padding: 12px 14px;
+    border-radius: 12px;
+    font-size: 0.95rem;
+  }
+}
+
+@media (min-width: 480px) and (max-width: 599px) {
+  .login-card h1 {
+    font-size: 1.8rem;
+  }
+
+  .login-form input,
+  .login-button {
+    font-size: 15px;
+    padding: 13px 15px;
+  }
+}
+
+@media (min-width: 600px) and (max-width: 767px) {
+  .login-card h1 {
+    font-size: 1.9rem;
+  }
+}
