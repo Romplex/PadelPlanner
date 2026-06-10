@@ -11,6 +11,7 @@ const pool = mysql.createPool({
 class Slot {
   static async getAvailableSlots(userName) {
     try {
+      const now = new Date();
       const [rows] = await pool.execute(`
         SELECT
           s.id,
@@ -24,6 +25,7 @@ class Slot {
         FROM slots s
         LEFT JOIN bookings b ON s.id = b.slot_id
         WHERE s.is_available = 1
+        AND CONCAT(s.date, ' ', s.start_time) > NOW()
         GROUP BY s.id
         ORDER BY s.date ASC, s.start_time ASC
       `, [userName]);
