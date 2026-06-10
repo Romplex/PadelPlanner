@@ -72,6 +72,11 @@
   transform: translateY(-1px);
 }
 
+.login-button:active {
+  background: #3a8a3e;
+  transform: scale(0.98);
+}
+
 /* Mobile Optimizations */
 @media (max-width: 479px) {
   .login-page {

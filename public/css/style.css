@@ -4,6 +4,7 @@ body {
   padding: 20px;
   background: #f3f5f8;
   color: #222;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .page-header {
@@ -63,11 +64,16 @@ body {
   color: white;
   text-decoration: none;
   font-size: 0.95rem;
-  transition: background 0.2s ease;
+  transition: background 0.2s ease, transform 0.1s ease;
 }
 
 .logout-button:hover {
   background: #222;
+}
+
+.logout-button:active {
+  background: #111;
+  transform: scale(0.98);
 }
 
 .page-content {
@@ -115,11 +121,16 @@ body {
   cursor: pointer;
   border-radius: 8px;
   font-size: 0.95rem;
-  transition: background-color 0.15s ease;
+  transition: background-color 0.15s ease, transform 0.1s ease;
 }
 
 .calendar-header button:hover {
   background: #f5f7fa;
+}
+
+.calendar-header button:active {
+  background: #e8ecf1;
+  transform: scale(0.97);
 }
 
 .calendar-weekdays,
@@ -157,6 +168,11 @@ body {
 .calendar-cell.available-day:not(.selected-day):hover {
   background: #d2ebd4;
   transform: translateY(-1px);
+}
+
+.calendar-cell.available-day:not(.selected-day):active {
+  background: #c0e6c2;
+  transform: scale(0.95);
 }
 
 .calendar-cell.selected-day {
@@ -232,9 +248,19 @@ body {
   color: white;
 }
 
+.slot-button.available:active {
+  background-color: #3d8b40;
+  transform: scale(0.97);
+}
+
 .slot-button.booked {
   background-color: #ffeb3b;
   color: #1f1f1f;
+}
+
+.slot-button.booked:active {
+  background-color: #fde92f;
+  transform: scale(0.97);
 }
 
 .slot-button.user-booked {
@@ -244,10 +270,20 @@ body {
   cursor: alias;
 }
 
+.slot-button.user-booked:active {
+  background-color: #fde92f;
+  transform: scale(0.97);
+}
+
 .slot-button.full {
   background-color: #f44336;
   color: white;
   cursor: not-allowed;
+}
+
+.slot-button.full:active {
+  background-color: #f44336;
+  transform: scale(0.97);
 }
 
 .slot-button.fullWithMe { 
@@ -255,6 +291,11 @@ body {
   color: white;
   cursor: alias;
   font-weight: bold;
+}
+
+.slot-button.fullWithMe:active {
+  background-color: #da190b;
+  transform: scale(0.97);
 }
 
 .slot-button:hover:not(:disabled) {
