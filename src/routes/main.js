@@ -15,6 +15,9 @@ router.get('/login', (req, res) => res.render('login'));
 router.post('/login', (req, res) => {
   req.session.user = req.body.username;
 
+  console.log("COOKIE HEADER:", req.headers.cookie);
+  console.log("SESSION:", req.session);
+  
   req.session.save(() => {
     res.redirect('/');
   });
