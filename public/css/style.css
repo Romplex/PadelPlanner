@@ -317,8 +317,16 @@ body {
   }
 
   .page-header {
-    flex-direction: column;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-start;
     margin-bottom: 16px;
+  }
+
+  .page-header-left {
+    flex: 1;
+    min-width: 0;
   }
 
   .page-header h1 {
@@ -326,10 +334,11 @@ body {
   }
 
   .user-actions {
-    text-align: left;
+    padding: 0;
+    text-align: right;
     flex-direction: row;
-    justify-content: space-between;
-    gap: 8px;
+    gap: 0;
+    z-index: auto;
   }
 
   .user-info {
@@ -423,8 +432,16 @@ body {
   }
 
   .page-header {
-    flex-direction: column;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-start;
     margin-bottom: 18px;
+  }
+
+  .page-header-left {
+    flex: 1;
+    min-width: 0;
   }
 
   .page-header h1 {
@@ -432,10 +449,19 @@ body {
   }
 
   .user-actions {
-    text-align: left;
+    padding: 0;
+    text-align: right;
     flex-direction: row;
-    justify-content: space-between;
-    gap: 10px;
+    gap: 0;
+    z-index: auto;
+  }
+
+  .user-info {
+    display: none;
+  }
+
+  .logout-button {
+    align-self: auto;
   }
 
   .page-content {
@@ -474,8 +500,16 @@ body {
   }
 
   .page-header {
-    flex-direction: column;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-start;
     margin-bottom: 20px;
+  }
+
+  .page-header-left {
+    flex: 1;
+    min-width: 0;
   }
 
   .page-header h1 {
@@ -483,9 +517,19 @@ body {
   }
 
   .user-actions {
+    padding: 0;
+    text-align: right;
     flex-direction: row;
-    justify-content: space-between;
-    text-align: left;
+    gap: 0;
+    z-index: auto;
+  }
+
+  .user-info {
+    display: none;
+  }
+
+  .logout-button {
+    align-self: auto;
   }
 
   .page-content {
