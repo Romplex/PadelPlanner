@@ -216,11 +216,27 @@ body {
   border-radius: 999px;
   font-size: 0.85rem;
   font-weight: 600;
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: border-color 0.2s ease, transform 0.1s ease, filter 0.2s ease;
 }
 
 .legend-item.available { background: #4caf50; color: white; }
 .legend-item.booked { background: #ffeb3b; color: #222; }
 .legend-item.full { background: #f44336; color: white; }
+
+.legend-item:hover {
+  filter: brightness(0.9);
+}
+
+.legend-item.active {
+  border-color: rgba(0, 0, 0, 0.3);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.legend-item:active {
+  transform: scale(0.95);
+}
 
 #slot-details {
   width: 100%;

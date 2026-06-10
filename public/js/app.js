@@ -175,23 +175,92 @@ function getFirstSelectableDate(availableDates) {
 function initCalendar() {
   const slotData = window.slotData || [];
   const groupedSlots = groupSlotsByDate(slotData);
-  const availableDates = new Set(
+  
+  // Alle möglichen Daten sammeln
+  const allAvailableDates = new Set(
     slotData
       .filter(slot => slot.booking_count < 4)
       .map(slot => slot.date)
   );
-  const bookedDates = new Set(
+  const allBookedDates = new Set(
     slotData
       .filter(slot => slot.booking_count > 0)
       .map(slot => slot.date)
   );
-  const fullDates = new Set(
+  const allFullDates = new Set(
     slotData
       .filter(slot => slot.booking_count >= 4)
       .map(slot => slot.date)
   );
 
+  // Filter-State aus localStorage laden
+  const activeFilters = new Set();
+  const savedFilters = localStorage.getItem('activeFilters');
+  if (savedFilters) {
+    try {
+      JSON.parse(savedFilters).forEach(f => activeFilters.add(f));
+    } catch (e) {
+      // Fallback falls JSON kaputt ist
+    }
+  }
+
+  function applyFilters() {
+    // Wenn keine Filter aktiv: ALLES anzeigen
+    if (activeFilters.size === 0) {
+      const filteredSlots = slotData;
+      const filteredGroupedSlots = groupSlotsByDate(filteredSlots);
+      const filteredAvailableDates = new Set(
+        filteredSlots
+          .filter(slot => slot.booking_count < 4)
+          .map(slot => slot.date)
+      );
+      
+      return {
+        availableDates: filteredAvailableDates,
+        bookedDates: allBookedDates,
+        fullDates: allFullDates,
+        groupedSlots: filteredGroupedSlots
+      };
+    }
+
+    // Slots filtern basierend auf aktiven Filtern
+    let filteredSlots = slotData.filter(slot => {
+      const isFull = slot.booking_count >= 4;
+      const hasBookings = slot.booking_count > 0 && slot.booking_count < 4;
+      const isAvailable = slot.booking_count === 0;
+
+      if (isAvailable && activeFilters.has('available')) return true;
+      if (hasBookings && activeFilters.has('booked')) return true;
+      if (isFull && activeFilters.has('full')) return true;
+      return false;
+    });
+
+    const filteredGroupedSlots = groupSlotsByDate(filteredSlots);
+    
+    // Alle Tage mit gefilterten Slots sammeln (können alle sein, die diese Slots haben)
+    const availableDates = new Set(filteredSlots.map(slot => slot.date));
+    const bookedDates = new Set(
+      filteredSlots
+        .filter(slot => slot.booking_count > 0)
+        .map(slot => slot.date)
+    );
+    const fullDates = new Set(
+      filteredSlots
+        .filter(slot => slot.booking_count >= 4)
+        .map(slot => slot.date)
+    );
+
+    return {
+      availableDates: availableDates,
+      bookedDates,
+      fullDates,
+      groupedSlots: filteredGroupedSlots
+    };
+  }
+
   const savedDate = localStorage.getItem('selectedDate');
+  const { availableDates, bookedDates, fullDates, groupedSlots: initialGroupedSlots } = applyFilters();
+  
   let selectedDate = savedDate && availableDates.has(savedDate)
     ? savedDate
     : getFirstSelectableDate(availableDates);
@@ -202,9 +271,27 @@ function initCalendar() {
   let currentSelectedDate = selectedDate;
 
   const updateCalendar = () => {
-    renderCalendar(availableDates, bookedDates, fullDates, currentSelectedDate, currentYear, currentMonth);
+    const { availableDates: filtered, bookedDates: filtered2, fullDates: filtered3, groupedSlots: filtered4 } = applyFilters();
+    
+    // Wenn keine Tage verfügbar sind, deselektieren
+    if (filtered.size === 0) {
+      currentSelectedDate = null;
+      localStorage.setItem('selectedDate', '');
+    } else if (!currentSelectedDate || !filtered.has(currentSelectedDate)) {
+      // Wenn kein Tag ausgewählt oder nicht in Filtern: zum ersten verfügbaren springen
+      currentSelectedDate = getFirstSelectableDate(filtered);
+      if (currentSelectedDate) {
+        localStorage.setItem('selectedDate', currentSelectedDate);
+      }
+    }
+    
+    renderCalendar(filtered, filtered2, filtered3, currentSelectedDate, currentYear, currentMonth);
     if (currentSelectedDate) {
-      renderSlotsForDate(currentSelectedDate, groupedSlots);
+      renderSlotsForDate(currentSelectedDate, filtered4);
+    } else {
+      // Wenn kein Tag ausgewählt, zeige empty-state
+      document.getElementById('selected-date-title').textContent = 'Keine buchbaren Tage gefunden';
+      document.getElementById('slot-grid').innerHTML = '';
     }
   };
 
@@ -217,6 +304,29 @@ function initCalendar() {
   window.refreshCalendar = () => {
     location.reload();
   };
+
+  // Filter-Buttons
+  document.querySelectorAll('.legend-item').forEach(btn => {
+    const filter = btn.dataset.filter;
+    // Visuell markieren falls Filter aktiv ist
+    if (activeFilters.has(filter)) {
+      btn.classList.add('active');
+    }
+    
+    btn.addEventListener('click', () => {
+      if (activeFilters.has(filter)) {
+        activeFilters.delete(filter);
+        btn.classList.remove('active');
+      } else {
+        activeFilters.add(filter);
+        btn.classList.add('active');
+      }
+      
+      // Speichern in localStorage
+      localStorage.setItem('activeFilters', JSON.stringify([...activeFilters]));
+      updateCalendar();
+    });
+  });
 
   document.getElementById('prev-month').addEventListener('click', () => {
     currentMonth--;
