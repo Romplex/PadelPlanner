@@ -44,7 +44,7 @@ function getMonthLabel(year, month) {
   });
 }
 
-function renderCalendar(availableDates, bookedDates, selectedDate, currentYear, currentMonth) {
+function renderCalendar(availableDates, bookedDates, fullDates, selectedDate, currentYear, currentMonth) {
   const calendarEl = document.getElementById('calendar');
   const monthLabel = document.getElementById('calendar-month');
   monthLabel.textContent = getMonthLabel(currentYear, currentMonth);
@@ -79,6 +79,10 @@ function renderCalendar(availableDates, bookedDates, selectedDate, currentYear, 
 
     if (bookedDates.has(dateKey)) {
       cell.classList.add('booked-day');
+    }
+
+    if (fullDates.has(dateKey)) {
+      cell.classList.add('full-day');
     }
 
     if (dateKey === selectedDate) {
@@ -156,6 +160,11 @@ function initCalendar() {
       .filter(slot => slot.booking_count > 0)
       .map(slot => slot.date)
   );
+  const fullDates = new Set(
+    slotData
+      .filter(slot => slot.booking_count >= 4)
+      .map(slot => slot.date)
+  );
 
   const savedDate = localStorage.getItem('selectedDate');
   let selectedDate = savedDate && availableDates.has(savedDate)
@@ -168,7 +177,7 @@ function initCalendar() {
   let currentSelectedDate = selectedDate;
 
   const updateCalendar = () => {
-    renderCalendar(availableDates, bookedDates, currentSelectedDate, currentYear, currentMonth);
+    renderCalendar(availableDates, bookedDates, fullDates, currentSelectedDate, currentYear, currentMonth);
     if (currentSelectedDate) {
       renderSlotsForDate(currentSelectedDate, groupedSlots);
     }
